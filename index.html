@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friends Frenzy</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#F3E8FF">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <div id="waiting-screen" class="hidden">
+            <div class="waiting-box">
+                <h2>MÃ PHÒNG: <span id="display-room-code" class="highlight-code">---</span></h2>
+                <div id="waiting-players"></div>
+                <button id="btn-start-game" class="btn-primary hidden">🚀 BẮT ĐẦU GAME</button>
+            </div>
+        </div>
+
+        <div id="lobby-screen">
+            <div class="lobby-card">
+                <div class="lobby-logo">🃏 FRIENDS FRENZY</div>
+                <p class="lobby-subtitle">Game thẻ bài đập tan tình bạn!</p>
+                <div id="player-rank" style="font-weight: 800; color: #FFD700; background: #333; padding: 5px 15px; border-radius: 20px; display: inline-block; margin-bottom: 20px;">🏆 Điểm Xếp Hạng: 1000</div>
+                <div class="lobby-inputs">
+                    <input type="text" id="input-player-name" placeholder="Tên của bạn...">
+                    <input type="text" id="input-room-code" placeholder="Mã phòng..." style="text-transform: uppercase;">
+                </div>
+                <div class="lobby-buttons">
+                    <button id="btn-join-room" class="btn-primary">🚪 VÀO PHÒNG</button>
+                    <div class="divider"><span>HOẶC</span></div>
+                    <button id="btn-create-room" class="btn-secondary">✨ TẠO PHÒNG MỚI</button>
+                </div>
+                <div id="lobby-error" class="hidden"></div>
+            </div>
+        </div>
+
+        <div id="ui-controls" style="position: absolute; top: 15px; right: 15px; display: flex; gap: 10px; z-index: 100000;">
+            <button id="btn-bgm-toggle" class="floating-btn">🎵</button>
+            <button id="btn-sfx-toggle" class="floating-btn">🔇</button>            
+            <button id="btn-social-toggle" class="floating-btn">💬</button>
+            <button id="btn-rules" class="floating-btn">❓</button>
+        </div>
+
+        <div id="social-menu" class="hidden" style="position: absolute; top: 75px; right: 15px;">
+            <div class="social-tabs"><button id="tab-chat" class="active">💬 CHAT</button><button id="tab-emoji">🍅 NÉM ĐỒ</button></div>
+            <div id="chat-list" class="social-list">
+                <button class="chat-btn">Chơi hay đấy! 🤩</button>
+                <button class="chat-btn">Ối dồi ôi! 😱</button>
+            </div>
+            <div id="emoji-list" class="social-list hidden">
+                <button class="emoji-btn" data-emoji="🍅">Cà chua 🍅</button>
+                <button class="emoji-btn" data-emoji="💩">Bãi ... 💩</button>
+            </div>    
+        </div>
+
+        <div id="rulebook-modal" class="hidden">
+            <div class="rulebook-content">
+                <button id="btn-close-rules">❌</button>
+                <h2>📖 LUẬT CHƠI</h2>
+                <p><b>Mục tiêu:</b> Có 4 cúp giống nhau, 4 cúp khác nhau hoặc 1 bộ (2 Ôm, 2 Đấm, 2 Uống) để thắng!</p>
+                <p><b>Cách chơi:</b> Cả bàn cùng úp 1 lá Hành động. Ai úp lá thuộc phe <b>THIỂU SỐ</b> sẽ thắng và nhận Cúp. Nếu Hòa -> Vứt bài.</p>
+            </div>
+        </div>
+
+        <div id="card-tooltip"></div>    
+        
+        <div class="top-area"><div class="opponent" id="player-C"><div class="avatar-container"><div class="avatar">C</div></div><div class="stats">Waiting...</div></div></div>
+
+        <div class="middle-area">
+            <div class="opponent side-opponent" id="player-D"><div class="avatar-container"><div class="avatar">D</div></div><div class="stats">Waiting...</div></div>
+
+            <div id="battle-zone">
+                <div id="guide-message" class="hidden"></div>
+                <div id="turn-indicator-wrapper"><div id="turn-indicator">WAITING...</div></div>
+                <div id="battle-arena-wrapper">
+                    <div id="chain-stack"><div class="empty-placeholder"><span>BATTLE<br>ZONE</span></div></div>
+                </div>
+                <div id="log-panel"><div class="log-title">Game Logs</div><div id="log-content"></div></div>
+            </div>
+
+            <div class="opponent side-opponent" id="player-B"><div class="avatar-container"><div class="avatar">B</div></div><div class="stats">Waiting...</div></div>
+        </div>
+
+        <div id="player-hud">
+            <div class="hud-info"><div class="my-avatar" id="player-A">YOU</div><div id="my-score"></div></div>
+            <button id="btn-surrender" class="btn-surrender-cute">🚪 Thoát</button>
+            <div id="player-hand" style="justify-content: center; gap: 0;">
+                <div id="hand-actions" class="card-row"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="client.js"></script>
+</body>
+</html>
